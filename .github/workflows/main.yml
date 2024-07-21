@@ -27,11 +27,11 @@ jobs:
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Run
-      uses: ./.github/actions/@main
+      uses: ./.github/actions/terraform
       with:
         working_dir: 'terraform/stage1'
         terraform_action: "${{ github.event.inputs.terraform_action }}"
