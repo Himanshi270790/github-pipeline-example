@@ -31,31 +31,31 @@ jobs:
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Run
-      uses: templates/terraform.yaml
+      uses: ./.github/templates/tf
       with:
         working_dir: 'terraform/stage1'
         terraform_action: "${{ github.event.inputs.terraform_action }}"
         
     
 
-  stage2:
-    name: 'stage2'
-    needs: [stage1]
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DEVOPS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_DEVOPS_SECRET_ACCESS_KEY }}
-    runs-on: ubuntu-latest
+  # stage2:
+  #   name: 'stage2'
+  #   needs: [stage1]
+  #   env:
+  #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DEVOPS_ACCESS_KEY_ID }}
+  #     AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_DEVOPS_SECRET_ACCESS_KEY }}
+  #   runs-on: ubuntu-latest
 
 
-    steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v3
+  #   steps:
+  #   # Checkout the repository to the GitHub Actions runner
+  #   - name: Checkout
+  #     uses: actions/checkout@v3
 
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Run
-      uses: templates/terraform.yaml
-      with:
-        working_dir: 'terraform/stage2'
-        terraform_action: "${{ github.event.inputs.terraform_action }}"
+  #   # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+  #   - name: Terraform Run
+  #     uses: templates/terraform.yaml
+  #     with:
+  #       working_dir: 'terraform/stage2'
+  #       terraform_action: "${{ github.event.inputs.terraform_action }}"
     
