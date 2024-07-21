@@ -15,6 +15,15 @@ runs:
   steps:
     - name: Checkout
       uses: actions/checkout@v4
+    
+    - name: Terraform Fmt
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 1.9.2
+        tf_actions_subcommand: 'fmt'
+        tf_actions_working_dir: ${{ inputs.working_dir }}
+        tf_actions_comment: true
+        args: '-check -recursive'
       
     - name: Terraform Init
       uses: hashicorp/terraform-github-actions@master
