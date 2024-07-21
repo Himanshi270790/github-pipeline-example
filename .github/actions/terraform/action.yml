@@ -1,58 +1,55 @@
 name: 'Terraform'
+description: "Execute terraform"
 
-on:
-  workflow_dispatch: # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    inputs:
-      working_dir:
-        description: "Pass the terraform working directory"
-        required: true
-      terraform_action:
-        description: " Pass the terraform action to run terraform commands"
-        options:
-            - apply
-            - destroy
-        required: true
+ # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+inputs:
+  working_dir:
+    description: "Pass the terraform working directory"
+    required: true
+  terraform_action:
+    description: " Pass the terraform action to run terraform commands"
+    required: true
 
-jobs:
-  terraform:
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        
-      - name: Terraform Init
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 1.9.2
-          tf_actions_subcommand: 'init'
-          tf_actions_working_dir: ${{ working_dir }}
-          tf_actions_comment: true
-    
-      - name: Terraform plan
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          
-          tf_actions_version: 1.9.2
-          tf_actions_subcommand: 'plan'
-          tf_actions_working_dir: ${{ working_dir }}
-          tf_actions_comment: true
-
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
       
-      - name: Terraform apply
-        if: ${{ terraform_action == 'apply' }}
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 1.9.2
-          tf_actions_subcommand: ${{ terraform_action }}
-          tf_actions_working_dir: ${{ working_dir }}
-          tf_actions_comment: true
-          args: '-auto-approve'
+    - name: Terraform Init
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 1.9.2
+        tf_actions_subcommand: 'init'
+        tf_actions_working_dir: ${{ working_dir }}
+        tf_actions_comment: true
+  
+    - name: Terraform plan
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        
+        tf_actions_version: 1.9.2
+        tf_actions_subcommand: 'plan'
+        tf_actions_working_dir: ${{ working_dir }}
+        tf_actions_comment: true
 
-      - name: Terraform destroy
-        if: ${{ terraform_action == 'destroy' }}
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 1.9.2
-          tf_actions_subcommand: ${{ terraform_action }}
-          tf_actions_working_dir: ${{ working_dir }}
-          tf_actions_comment: true
-          args: '-auto-approve'
+    
+    - name: Terraform apply
+      if: ${{ terraform_action == 'apply' }}
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 1.9.2
+        tf_actions_subcommand: ${{ terraform_action }}
+        tf_actions_working_dir: ${{ working_dir }}
+        tf_actions_comment: true
+        args: '-auto-approve'
+
+    - name: Terraform destroy
+      if: ${{ terraform_action == 'destroy' }}
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 1.9.2
+        tf_actions_subcommand: ${{ terraform_action }}
+        tf_actions_working_dir: ${{ working_dir }}
+        tf_actions_comment: true
+        args: '-auto-approve'
