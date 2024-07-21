@@ -33,7 +33,7 @@ jobs:
     - name: Terraform Run
       uses: ./.github/actions/terraform
       with:
-        working_dir: ./.terraform/stage1
+        working_dir: ./terraform/stage1
         terraform_action: "${{ github.event.inputs.terraform_action }}"
         
     
