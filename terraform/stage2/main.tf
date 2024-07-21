@@ -1,3 +1,3 @@
 resource "aws_s3_bucket" "example" {
-  bucket = "siddu-github-pipeline-example"
+  bucket = "21july2024dd"
 }
